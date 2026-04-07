@@ -7,7 +7,15 @@ from model.my_attn import scale_dot_production_attn
 
 
 class MyMultiHeadAttn(Module):
-    """ """
+    """
+    input :
+    q: bs,seq_len,d_model
+    k: bs,seq_len,d_model
+    v: bs,seq_len,d_model
+    output:
+    attn_output: bs,seq_len,d_model
+    attn_w: bs,n_heads,seq_q,seq_k
+    """
 
     def __init__(self, d_model: int, n_heads: int, dropout: float = 0.1):
         super().__init__()

@@ -1,8 +1,8 @@
 # Vanilla Transformer TODO
 
 - [x] ~~Step 2 — `model/attention.py` / `model/my_attn.py` — Scaled Dot-Product Attention~~
-- [ ] Step 2 — `model/mha.py` — Multi-Head Attention (WIP)
-- [ ] Step 1 — `model/embedding.py` — TokenEmbedding + PositionalEncoding (TODO)
+- [x] ~~Step 2 — `model/mha.py` — Multi-Head Attention~~
+- [ ] Step 1 — `model/pe.py` — TokenEmbedding + PositionalEncoding (WIP)
 - [ ] Step 3 — `model/feed_forward.py` — PositionWiseFFN
 - [ ] Step 4 — `model/encoder.py` — EncoderLayer + Encoder
 - [ ] Step 5 — `model/decoder.py` — DecoderLayer + Decoder
