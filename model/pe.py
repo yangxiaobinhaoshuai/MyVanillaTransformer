@@ -1,4 +1,6 @@
 import math
+from typing import cast
+
 import torch
 import torch.nn as nn
 from torch import Tensor
@@ -52,7 +54,7 @@ class PositionalEncoding(nn.Module):
     def forward(self, x: Tensor) -> Tensor:
         # x: (bs, seq_len, d_model)
         # self.pe[:, :seq_len] 取出对应长度的 PE，广播加到整个 batch
-        x = x + self.pe[:, : x.size(1)]
+        x = x + cast(Tensor, self.pe)[:, : x.size(1)]
         return self.dropout(x)
 
 
