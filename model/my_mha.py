@@ -1,6 +1,7 @@
-import torch
 from torch.nn import Module
 from torch.nn import Linear
+from torch.nn import Dropout
+from torch import Tensor
 
 
 class MyMultiHeadAttn(Module):
@@ -20,6 +21,12 @@ class MyMultiHeadAttn(Module):
         self.W_v = Linear(d_model, d_model)
         self.W_o = Linear(d_model, d_model)
 
+        self.dropout = Dropout(dropout)
+
+    
+    def split_heads(self,x:Tensor) -> Tensor:
+        bs, seq_len = x.shape
+        
         pass
 
     pass
