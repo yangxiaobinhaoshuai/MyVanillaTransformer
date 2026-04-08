@@ -82,7 +82,7 @@ if __name__ == "__main__":
     # bs, seq_len, d_model
     print("Token emb shape: ", out.shape)
 
-    out = pos_emb(x)
+    out = pos_emb(out)
 
     # expect: 2, 20, 128
     # bs, seq_len, d_model
