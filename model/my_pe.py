@@ -62,3 +62,31 @@ class PositionalEmbedding(Module):
         # self.pe[:,:seq_len] 取出对就长度的 pe 广播加到整个 batch
         x = x + cast(Tensor, self.pe)[:, : x.size(1)]
         return self.dropout(x)
+
+
+if __name__ == "__main__":
+    torch.manual_seed(1)
+
+    vocab_size, max_len, d_model = 1000, 128, 50
+
+    bs, seq_len = 2, 20
+
+    token_emb = TokenEmbedding(vocab_size, d_model)
+    pos_emb = PositionalEmbedding(d_model, max_len)
+
+    x = torch.randint(0, vocab_size, (bs, seq_len))
+
+    out = token_emb(x)
+
+    # expect: 2, 20, 128
+    # bs, seq_len, d_model
+    print("Token emb shape: ", out.shape)
+
+    out = pos_emb(x)
+
+    # expect: 2, 20, 128
+    # bs, seq_len, d_model
+    print("Pos emb shape", out.shape)
+
+    assert out.shape == (bs, seq_len, d_model)
+    print("PE test passed")
