@@ -9,30 +9,7 @@ from torch.nn import Dropout, LayerNorm, Linear, Module, ModuleList, ReLU
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 from model.mha import MultiHeadAttention
-
-
-class PositionWiseFFN(Module):
-    """
-    input:
-        x: bs, seq_len, d_model
-
-    output:
-        x: bs, seq_len, d_model
-    """
-
-    def __init__(self, d_model: int, d_ff: int, dropout: float = 0.1):
-        super().__init__()
-        self.fc1 = Linear(d_model, d_ff)
-        self.relu = ReLU()
-        self.dropout = Dropout(dropout)
-        self.fc2 = Linear(d_ff, d_model)
-
-    def forward(self, x: Tensor) -> Tensor:
-        x = self.fc1(x)
-        x = self.relu(x)
-        x = self.dropout(x)
-        x = self.fc2(x)
-        return x
+from model.ffn import PositionWiseFFN
 
 
 class EncoderLayer(Module):
