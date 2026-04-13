@@ -2,7 +2,7 @@ from torch import Tensor
 from torch.nn import Dropout, Linear, Module
 import torch
 
-from model.my_attn import scale_dot_production_attn
+from model.attention import scaled_dot_product_attention
 
 
 class MultiHeadAttention(Module):
@@ -71,7 +71,7 @@ class MultiHeadAttention(Module):
         V = self.split_heads(V)
 
         # 3. per-head attention
-        attn_output, attn_w = scale_dot_production_attn(
+        attn_output, attn_w = scaled_dot_product_attention(
             Q,
             K,
             V,
