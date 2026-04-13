@@ -1,8 +1,9 @@
 import torch
-from torch import Module, Tensor
+from torch import Tensor
+from torch.utils.data import Dataset
 
 
-class MyCopyTaskDataset(Module):
+class MyCopyTaskDataset(Dataset):
     """
     最小版 copy task dataset
 

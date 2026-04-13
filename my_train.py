@@ -1,30 +1,15 @@
-from pathlib import Path
-import sys
-
 import torch
-from torch import Tensor
+from torch.utils.data import DataLoader
+from model.my_transformer import MyTransformer
+from data.my_dataset import MyCopyTaskDataset
 from torch.nn import CrossEntropyLoss
 from torch.optim import Adam
-from torch.utils.data import DataLoader
-
-# Allow running this file directly via `uv run python train.py`.
-sys.path.append(str(Path(__file__).resolve().parent))
-
-from data.dataset import CopyTaskDataset
-from model.transformer import Transformer
 
 
 def build_dataloader(
-    num_samples: int,
-    seq_len: int,
-    vocab_size: int,
-    batch_size: int,
+    num_samples: int, seq_len: int, vocab_size: int, batch_size: int
 ) -> DataLoader:
-    dataset = CopyTaskDataset(
-        num_samples=num_samples,
-        seq_len=seq_len,
-        vocab_size=vocab_size,
-    )
+    dataset = MyCopyTaskDataset(num_samples, seq_len, vocab_size)
     return DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
 
@@ -34,7 +19,7 @@ def build_causal_mask(batch_size: int, seq_len: int, device: torch.device) -> Te
 
 
 def train_one_epoch(
-    model: Transformer,
+    model: MyTransformer,
     dataloader: DataLoader,
     criterion: CrossEntropyLoss,
     optimizer: Adam,
@@ -47,24 +32,22 @@ def train_one_epoch(
         src_tokens = batch["src_tokens"].to(device)
         tgt_tokens = batch["tgt_tokens"].to(device)
 
-        batch_size, src_seq_len = src_tokens.shape
-        _, tgt_seq_len = tgt_tokens.shape
+         batch_size, src_seq_len = src_tokens.shape
+         _,tgt_seq_len = tgt_tokens.shape
+
 
         src_mask = torch.ones(batch_size, 1, 1, src_seq_len, device=device)
-        tgt_mask = build_causal_mask(batch_size, tgt_seq_len, device)
+        tgt_mask = build_causal_mask(batch_size,tgt_seq_len,device=)
 
         logits, _ = model(
-            src_tokens=src_tokens,
-            tgt_tokens=tgt_tokens,
-            src_mask=src_mask,
-            tgt_mask=tgt_mask,
+            src_tokens,
+            tgt_tokens,
+            src_mask,
+            tgt_mask
         )
 
-        # 当前模板直接把 copy task 当作“逐位置分类”练通整个前向流程。
-        loss = criterion(
-            logits.reshape(-1, logits.size(-1)),
-            tgt_tokens.reshape(-1),
-        )
+        # 当前模板直接把 copy task 当作逐位置分类练通整个前向流程
+        loss = criterion(logits.reshape(-1,logits.size(-1)),tgt_tokens.reshape(-1))
 
         optimizer.zero_grad()
         loss.backward()
@@ -75,7 +58,9 @@ def train_one_epoch(
     return total_loss / len(dataloader)
 
 
-def main() -> None:
+
+def main():
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     vocab_size = 20
@@ -84,7 +69,7 @@ def main() -> None:
     batch_size = 16
     num_epochs = 3
 
-    model = Transformer(
+    model = MyTransformer(
         src_vocab_size=vocab_size,
         tgt_vocab_size=vocab_size,
         d_model=128,
@@ -95,25 +80,20 @@ def main() -> None:
         dropout=0.0,
     ).to(device)
 
-    dataloader = build_dataloader(
-        num_samples=num_samples,
-        seq_len=seq_len,
-        vocab_size=vocab_size,
-        batch_size=batch_size,
-    )
+    dataloader = build_dataloader(num_samples, seq_len, vocab_size, batch_size)
 
     criterion = CrossEntropyLoss()
     optimizer = Adam(model.parameters(), lr=1e-3)
 
     for epoch in range(num_epochs):
         avg_loss = train_one_epoch(
-            model=model,
-            dataloader=dataloader,
-            criterion=criterion,
-            optimizer=optimizer,
-            device=device,
+            model,
+            dataloader,
+            criterion,
+            optimizer,
+            device
         )
-        print(f"epoch {epoch + 1}: loss = {avg_loss:.4f}")
+        print(f"epoch {epoch +1 }: loss = {avg_loss:.4f}")
 
 
 if __name__ == "__main__":

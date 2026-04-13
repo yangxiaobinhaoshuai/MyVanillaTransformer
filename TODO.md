@@ -7,5 +7,5 @@
 - [x] ~~Step 4 — `model/encoder.py` — EncoderLayer + Encoder~~
 - [x] Step 5 — `model/decoder.py` — DecoderLayer + Decoder
 - [x] Step 6 — `model/transformer.py` — 完整 Transformer
-- [ ] Step 7 — `data/dataset.py` — Copy Task 数据集 (WIP)
-- [ ] Step 8 — `train.py` + `main.py` — 训练循环
+- [x] Step 7 — `data/dataset.py` — Copy Task 数据集
+- [x] Step 8 — `train.py` + `main.py` — 训练循环 
