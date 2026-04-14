@@ -45,7 +45,7 @@ class DecoderLayer(Module):
 
         x = self.norm2(x + self.droput2(cross_attn_out))
 
-        ffn_out = self.ffn(cross_attn_out)
+        ffn_out = self.ffn(x)
 
         x = self.norm3(x + self.droput3(ffn_out))
 
