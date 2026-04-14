@@ -53,12 +53,16 @@ class DecoderLayer(Module):
 
 
 class Decoder(Module):
-    def __init__(self, n_layers: int, n_heads: int, d_model: int, d_ff: int):
+    def __init__(
+        self, n_layers: int, n_heads: int, d_model: int, d_ff: int, dropout: float = 0.1
+    ):
         super().__init__()
 
         self.layers = ModuleList(
             [
-                DecoderLayer(n_heads=n_heads, d_model=d_model, d_ff=d_ff)
+                DecoderLayer(
+                    n_heads=n_heads, d_model=d_model, d_ff=d_ff, dropout=dropout
+                )
                 for _ in range(n_layers)
             ]
         )
@@ -122,7 +126,6 @@ if __name__ == "__main__":
     )
 
     decoder = Decoder(n_layers=n_layers, n_heads=n_heads, d_model=d_model, d_ff=d_ff)
-
 
     dec_out, dec_self_all_attn_w, dec_cross_all_attn_w = decoder(
         decode_input, encode_out, src_mask, tgt_mask
