@@ -1,0 +1,14 @@
+model2/mha.py
+  h_c17f9147a0a04a 3,5,26-32,35-42,46-63,65,67
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "df96443b665d68e7564c303e0b9f8d0e157726e1",
+  "prompts": {},
+  "humans": {
+    "h_c17f9147a0a04a": {
+      "author": "yangxiaobin01 <yangxiaobin01@zuoyebang.com>"
+    }
+  }
+}
