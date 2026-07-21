@@ -1,0 +1,14 @@
+model2/encoder.py
+  h_c17f9147a0a04a 4-5,25-68
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "5a694b10359e52bfd1a95c056e7603f5487b0d26",
+  "prompts": {},
+  "humans": {
+    "h_c17f9147a0a04a": {
+      "author": "yangxiaobin01 <yangxiaobin01@zuoyebang.com>"
+    }
+  }
+}
